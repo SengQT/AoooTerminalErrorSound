@@ -1,71 +1,164 @@
-# AoooTerminalErrorSound README
+# 🎃 Aooo Terminal Error Sound (Chowayo)
 
-This is the README for your extension "AoooTerminalErrorSound". After writing up a brief description, we recommend including the following sections.
+> **"Because failing a command should at least sound cool."**
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Tired of silent terminal errors? This extension brings the iconic **"Aooooo!"** (Chowayo) pumpkin howl to your VS Code integrated terminal. Whenever a command fails, the pumpkin screams.
 
 ---
 
-## Following extension guidelines
+## ✨ Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- **⚡ Automatic Trigger**: No manual commands needed. When any terminal command returns an error (exit code ≠ 0), the sound plays instantly
+- **🔊 High-Fidelity Audio**: Includes the authentic "Chowayo" pumpkin howl sound effect
+- **🖥️ Cross-Platform Support**: Optimized for Windows, macOS, and Linux
+- **💬 Visual Alerts**: Shows a "CHOWAYO!" notification when a failure is detected
+- **🎯 Zero Configuration**: Works out of the box on Windows and macOS
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+---
 
-## Working with Markdown
+## 🛠️ Installation & Setup
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+### From VS Code Marketplace
+1. Open VS Code
+2. Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (Mac)
+3. Search for "Aooo Terminal Error Sound"
+4. Click **Install**
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### Platform-Specific Setup
 
-## For more information
+#### 🪟 Windows (10/11)
+**No additional setup required!** ✅
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+The extension uses built-in Windows capabilities (PowerShell) to play audio automatically.
 
-**Enjoy!**
+#### 🍎 macOS
+**No additional setup required!** ✅
+
+macOS comes with the built-in `afplay` command, which the extension uses automatically.
+
+#### 🐧 Linux (Ubuntu, Debian, Pop!_OS)
+**One-time setup required:**
+
+Install the audio player using your terminal:
+
+```bash
+sudo apt update && sudo apt install mpg123
+```
+
+For other Linux distributions:
+- **Fedora/RHEL**: `sudo dnf install mpg123`
+- **Arch**: `sudo pacman -S mpg123`
+
+---
+
+## 🚀 How to Use
+
+1. **Install the extension** (see above)
+2. **Open the integrated terminal** in VS Code:
+   - Windows/Linux: `Ctrl + ~`
+   - Mac: `Cmd + ~`
+3. **Run a command that fails** to test it:
+
+```bash
+this-is-a-typo
+```
+
+4. **Listen to the Aooooo!** 🎃
+
+The sound plays automatically whenever any command exits with a non-zero status code.
+
+---
+
+## 📂 Project Structure
+
+```
+aooo-terminal-error-sound/
+├── src/
+│   └── extension.ts       # Main extension logic (monitors terminal exit codes)
+├── media/
+│   └── chowayo.mp3        # The legendary sound file
+├── package.json           # Extension manifest
+└── README.md              # This file
+```
+
+---
+
+## ❓ Troubleshooting
+
+### I see the "CHOWAYO!" popup but hear no sound
+
+**Linux Users:**
+- Ensure `mpg123` is installed: `which mpg123`
+- If not installed, run: `sudo apt install mpg123`
+
+**All Users:**
+- Check if VS Code is muted in your system's Volume Mixer/Sound Settings
+- Verify the audio file exists at `media/chowayo.mp3` in the extension directory
+- Try increasing your system volume
+
+### Does this work in external terminals?
+
+No, this extension only monitors the **Integrated Terminal** inside VS Code. External terminal windows (Command Prompt, Terminal.app, etc.) are not monitored.
+
+### The sound plays too often / not often enough
+
+The extension triggers on any command that returns a non-zero exit code. Some commands (like `grep` with no matches) may return non-zero exit codes even when they're not "errors" in the traditional sense.
+
+### How do I disable the extension temporarily?
+
+1. Open the Extensions panel (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+2. Find "Aooo Terminal Error Sound"
+3. Click **Disable**
+
+---
+
+## 🔧 Configuration
+
+Currently, this extension works with default settings and requires no configuration. Future versions may include:
+- Custom sound file support
+- Volume control
+- Specific exit code filtering
+
+---
+
+## 📜 Release Notes
+
+### 1.0.0 (Initial Release) 🚀
+- Automatic terminal error detection
+- Cross-platform support for Windows (PowerShell), macOS (afplay), and Linux (mpg123)
+- Visual notification system
+- High-quality "Chowayo" pumpkin howl audio
+
+---
+
+## 🤝 Contributing
+
+Found a bug or have a feature request? 
+
+- **Report Issues**: [GitHub Issues](https://github.com/SengQT/AoooTerminalErrorSound/issues)
+- **Pull Requests**: Contributions are welcome!
+
+---
+
+## 📄 License
+
+This extension is released under the [MIT License](LICENSE).
+
+---
+
+## 💖 Credits
+
+Created with ❤️ by **SengQT** ([@SengQT](https://github.com/SengQT))
+
+Inspired by the legendary Chowayo AI Pumpkin.
+
+---
+
+## ⭐ Show Your Support
+
+If this extension made you smile (or jump in your chair), please:
+- ⭐ Star the [GitHub repository](https://github.com/SengQT/AoooTerminalErrorSound)
+- 📝 Leave a review on the VS Code Marketplace
+- 🐛 Report any bugs or suggest features
+
+**Happy coding! May your errors be loud and spooky! 🎃**
