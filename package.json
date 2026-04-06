@@ -1,14 +1,30 @@
 {
   "name": "aooo-terminal-error-sound",
-  "displayName": "ChowayoAwwwww",
-  "description": "When You Get red error or exit code 0 you'll hear the Aoooo sound from chowayo ai pumkin",
+  "displayName": "Aooo Terminal Error Sound (Chowayo)",
+  "description": "Plays the iconic Chowayo pumpkin howl when terminal commands fail (non-zero exit codes)",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.110.0"
+  "publisher": "sengqt",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SengQT/AoooTerminalErrorSound"
   },
+  "keywords": [
+    "terminal",
+    "error",
+    "sound",
+    "audio",
+    "chowayo",
+    "pumpkin",
+    "notification",
+    "failed-command"
+  ],
   "categories": [
     "Other"
   ],
+  "engines": {
+    "vscode": "^1.110.0"
+  },
   "activationEvents": [
     "onTerminal"
   ],
@@ -40,5 +56,6 @@
   },
   "dependencies": {
     "play-sound": "^1.1.6"
-  }
+  },
+  "license": "MIT"
 }
