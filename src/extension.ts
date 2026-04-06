@@ -1,28 +1,28 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-// This is the player that talks to your Pop!_OS speakers
-const player = require('play-sound')({});
+// This specific syntax tells TypeScript how to handle the play-sound library
+import playerFactory = require('play-sound');
+const player = playerFactory({});
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('AoooTerminalErrorSound is now active!');
+    // This will now be recognized thanks to the "dom" or "node" types
+    console.log('Chowayo Aoooo is active!');
 
-    // This registers the command name
     let disposable = vscode.commands.registerCommand('aooo.chowayo', () => {
-        
-        // Find the sound file inside your extension's media folder
+        // Construct the path to your sound file
         const soundPath = path.join(context.extensionPath, 'media', 'chowayo.mp3');
 
-        // Play the sound!
         player.play(soundPath, (err: any) => {
             if (err) {
-                vscode.window.showErrorMessage("Chowayo sound error: " + err);
+                vscode.window.showErrorMessage("Chowayo Sound Error: " + err);
             }
         });
 
-        // Show a "Chowayo" message in the bottom right corner
-        vscode.window.showInformationMessage('CHOWAYO! 🎃');
+        vscode.window.showInformationMessage('Aooooooo! 🎃');
     });
 
     context.subscriptions.push(disposable);
 }
+
+export function deactivate() {}
