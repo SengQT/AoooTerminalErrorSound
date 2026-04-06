@@ -1,5 +1,5 @@
 {
-  "name": "AoooTerminalErrorSound",
+  "name": "aooo-terminal-error-sound",
   "displayName": "ChowayoAwwwww",
   "description": "When You Get red error or exit code 0 you'll hear the Aoooo sound from chowayo ai pumkin",
   "version": "0.0.1",
@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "AoooTerminalErrorSound.helloWorld",
-        "title": "Hello World"
+        "command": "aooo.chowayo",
+        "title": "Aooo: Play Chowayo Sound"
       }
     ]
   },
@@ -28,13 +28,15 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.110.0",
     "@types/mocha": "^10.0.10",
-    "@types/node": "22.x",
-    "typescript-eslint": "^8.56.1",
-    "eslint": "^9.39.3",
-    "typescript": "^5.9.3",
+    "@types/node": "^20.19.39",
+    "@types/vscode": "^1.110.0",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.3",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "play-sound": "^1.1.6"
   }
 }
