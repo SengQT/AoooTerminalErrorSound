@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onTerminal"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

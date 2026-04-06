@@ -1,28 +1,34 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-// This specific syntax tells TypeScript how to handle the play-sound library
-import playerFactory = require('play-sound');
-const player = playerFactory({});
+// This is the bridge to your speakers
+const player = require('play-sound')({});
 
 export function activate(context: vscode.ExtensionContext) {
-    // This will now be recognized thanks to the "dom" or "node" types
-    console.log('Chowayo Aoooo is active!');
+    console.log('Chowayo Terminal Error Listener is now active!');
 
-    let disposable = vscode.commands.registerCommand('aooo.chowayo', () => {
-        // Construct the path to your sound file
-        const soundPath = path.join(context.extensionPath, 'media', 'chowayo.mp3');
+    // This listens for any command finishing in the VS Code terminal
+    const terminalListener = vscode.window.onDidEndTerminalShellExecution((event: any) => {
+        
+        // Check if the command failed (exit code is NOT 0)
+        if (event.exitCode !== undefined && event.exitCode !== 0) {
+            
+            // Build the path to the pumpkin sound
+            const soundPath = path.join(context.extensionPath, 'media', 'chowayo.mp3');
 
-        player.play(soundPath, (err: any) => {
-            if (err) {
-                vscode.window.showErrorMessage("Chowayo Sound Error: " + err);
-            }
-        });
+            // Play the Aooooo!
+            player.play(soundPath, (err: any) => {
+                if (err) {
+                    console.error("Chowayo playback error:", err);
+                }
+            });
 
-        vscode.window.showInformationMessage('Aooooooo! 🎃');
+            vscode.window.showErrorMessage(`CHOWAYO! Command failed with code: ${event.exitCode} 🎃`);
+        }
     });
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(terminalListener);
 }
 
+// This runs when your extension is deactivated
 export function deactivate() {}
