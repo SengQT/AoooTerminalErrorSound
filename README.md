@@ -135,6 +135,7 @@ Currently, this extension works with default settings and requires no configurat
 
 Found a bug or have a feature request? Contributions are welcome!
 
+- **Report Issues**: [GitHub Issues](https://github.com/SengQT/AoooTerminalErrorSound/issues)
 - **Submit Pull Requests**: Fork the repo and submit your improvements
 - **Reach out**: Contact me on GitHub [@SengQT](https://github.com/SengQT)
 
@@ -159,6 +160,6 @@ Inspired by the legendary Chowayo AI Pumpkin.
 If this extension made you smile (or jump in your chair), please:
 - ⭐ Star the [GitHub repository](https://github.com/SengQT/AoooTerminalErrorSound)
 - 📝 Leave a review on the VS Code Marketplace
-- 🔀 Fork and contribute improvements
+- 🐛 Report bugs or suggest features via [Issues](https://github.com/SengQT/AoooTerminalErrorSound/issues)
 
 **Happy coding! May your errors be loud and spooky! 🎃**
