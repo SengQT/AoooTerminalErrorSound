@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-// This is the bridge to your speakers
-const player = require('play-sound')({});
+// This helps the library find a player on Windows, Mac, or Linux
+const player = require('play-sound')({ players: ['mpg123', 'aplay', 'afplay', 'cmdmp3'] });
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Chowayo Terminal Error Listener is now active!');
