@@ -1,34 +1,62 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-// This helps the library find a player on Windows, Mac, or Linux
-const player = require('play-sound')({ players: ['mpg123', 'aplay', 'afplay', 'cmdmp3'] });
+function playChowayo(context: vscode.ExtensionContext) {
+    const soundFile = vscode.Uri.file(
+        path.join(context.extensionPath, 'media', 'chowayo.mp3')
+    );
+
+    const panel = vscode.window.createWebviewPanel(
+        'chowayoSound',
+        'Chowayo',
+        { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
+        {
+            enableScripts: true,
+            localResourceRoots: [
+                vscode.Uri.file(path.join(context.extensionPath, 'media'))
+            ]
+        }
+    );
+
+    const soundUri = panel.webview.asWebviewUri(soundFile);
+
+    panel.webview.html = `<!DOCTYPE html>
+<html>
+<body>
+<script>
+    const vscode = acquireVsCodeApi();
+    const audio = new Audio('${soundUri}');
+    audio.play();
+    audio.onended = () => vscode.postMessage('done');
+    audio.onerror = () => vscode.postMessage('done');
+</script>
+</body>
+</html>`;
+
+    panel.webview.onDidReceiveMessage(
+        () => panel.dispose(),
+        undefined,
+        context.subscriptions
+    );
+
+    setTimeout(() => {
+        try { panel.dispose(); } catch {}
+    }, 10000);
+}
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Chowayo Terminal Error Listener is now active!');
 
-    // This listens for any command finishing in the VS Code terminal
     const terminalListener = vscode.window.onDidEndTerminalShellExecution((event: any) => {
-        
-        // Check if the command failed (exit code is NOT 0)
         if (event.exitCode !== undefined && event.exitCode !== 0) {
-            
-            // Build the path to the pumpkin sound
-            const soundPath = path.join(context.extensionPath, 'media', 'chowayo.mp3');
-
-            // Play the Aooooo!
-            player.play(soundPath, (err: any) => {
-                if (err) {
-                    console.error("Chowayo playback error:", err);
-                }
-            });
-
-            vscode.window.showErrorMessage(`CHOWAYO! Command failed with code: ${event.exitCode} 🎃`);
+            playChowayo(context);
+            vscode.window.showErrorMessage(
+                `CHOWAYO! Command failed with code: ${event.exitCode} 🎃`
+            );
         }
     });
 
     context.subscriptions.push(terminalListener);
 }
 
-// This runs when your extension is deactivated
 export function deactivate() {}

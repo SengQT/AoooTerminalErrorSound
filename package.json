@@ -54,8 +54,6 @@
     "eslint": "^9.39.3",
     "typescript": "^5.4.5"
   },
-  "dependencies": {
-    "play-sound": "^1.1.6"
-  },
+  "dependencies": {},
   "license": "MIT"
 }
