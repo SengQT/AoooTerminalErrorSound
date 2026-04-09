@@ -26,7 +26,7 @@
     "vscode": "^1.110.0"
   },
   "activationEvents": [
-    "onTerminal"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
