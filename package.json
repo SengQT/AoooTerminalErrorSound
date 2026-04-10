@@ -2,7 +2,7 @@
   "name": "aooo-terminal-error-sound",
   "displayName": "Aooo Terminal Error Sound (Chowayo)",
   "description": "Plays the iconic Chowayo pumpkin howl when terminal commands fail (non-zero exit codes)",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "sengqt",
   "icon": "media/icon.png",
   "repository": {
@@ -15,7 +15,7 @@
   ],
   "categories": ["Other"],
   "engines": {
-    "vscode": "^1.115.0"
+    "vscode": "^1.60.0"
   },
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.6.0",
-    "@types/vscode": "^1.115.0",
+    "@types/vscode": "^1.60.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
     "eslint": "^10.2.0",
