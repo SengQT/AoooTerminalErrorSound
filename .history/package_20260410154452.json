@@ -10,14 +10,24 @@
     "url": "https://github.com/SengQT/AoooTerminalErrorSound"
   },
   "keywords": [
-    "terminal", "error", "sound", "audio",
-    "chowayo", "pumpkin", "notification", "failed-command"
+    "terminal",
+    "error",
+    "sound",
+    "audio",
+    "chowayo",
+    "pumpkin",
+    "notification",
+    "failed-command"
   ],
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "engines": {
-    "vscode": "^1.115.0"
+    "vscode": "^^1.115.0"
   },
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
