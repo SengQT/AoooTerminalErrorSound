@@ -1,60 +1,30 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { exec } from 'child_process';
 
 function playChowayo(context: vscode.ExtensionContext) {
     const config = vscode.workspace.getConfiguration('aooo');
     if (!config.get<boolean>('enableSound', true)) return;
 
-    const soundFile = vscode.Uri.file(
-        path.join(context.extensionPath, 'media', 'chowayo.mp3')
-    );
+    const soundPath = path.join(context.extensionPath, 'media', 'chowayo.mp3');
 
-    const panel = vscode.window.createWebviewPanel(
-        'chowayoSound',
-        'Chowayo',
-        { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
-        {
-            enableScripts: true,
-            localResourceRoots: [
-                vscode.Uri.file(path.join(context.extensionPath, 'media'))
-            ]
-        }
-    );
-
-    const soundUri = panel.webview.asWebviewUri(soundFile);
-
-    // body hidden so the panel appears blank, not jarring
-    panel.webview.html = `<!DOCTYPE html>
-<html>
-<head><style>body { margin: 0; overflow: hidden; }</style></head>
-<body>
-<audio autoplay src="${soundUri}"></audio>
-<script>
-    const vscode = acquireVsCodeApi();
-    const audio = document.querySelector('audio');
-    audio.onended = () => vscode.postMessage('done');
-    audio.onerror  = (e) => {
-        console.error('Audio error', e);
-        vscode.postMessage('done');
-    };
-</script>
-</body>
-</html>`;
-
-    panel.webview.onDidReceiveMessage(
-        () => { try { panel.dispose(); } catch { } },
-        undefined,
-        context.subscriptions
-    );
-
-    // Safety net in case the message never arrives
-    setTimeout(() => { try { panel.dispose(); } catch { } }, 10000);
+    switch (process.platform) {
+        case 'win32':
+            exec(`powershell -c "Add-Type -AssemblyName presentationCore; $mp = New-Object System.Windows.Media.MediaPlayer; $mp.Open([uri]'${soundPath}'); $mp.Play(); Start-Sleep 5"`);
+            break;
+        case 'darwin':
+            exec(`afplay "${soundPath}"`);
+            break;
+        default:
+            // Linux — try common players in order
+            exec(`mpg123 "${soundPath}" 2>/dev/null || ffplay -nodisp -autoexit "${soundPath}" 2>/dev/null`);
+            break;
+    }
 }
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Chowayo Terminal Error Listener is now active!');
 
-    // Primary: shell integration — gives per-command exit codes
     const shellListener = vscode.window.onDidEndTerminalShellExecution((event: any) => {
         if (event.exitCode !== undefined && event.exitCode !== 0) {
             playChowayo(context);
@@ -64,7 +34,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    // Fallback: fires when the terminal process itself closes (shell integration off)
     const closeListener = vscode.window.onDidCloseTerminal((terminal) => {
         const code = terminal.exitStatus?.code;
         if (code !== undefined && code !== 0) {
@@ -72,7 +41,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    // Manual command — lets users test via Command Palette
     const manualCmd = vscode.commands.registerCommand('aooo.chowayo', () => {
         playChowayo(context);
     });
