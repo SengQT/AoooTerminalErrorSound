@@ -26,26 +26,29 @@ function playChowayo(context: vscode.ExtensionContext) {
     // body hidden so the panel appears blank, not jarring
     panel.webview.html = `<!DOCTYPE html>
 <html>
-<head><style>body { display: none; }</style></head>
+<head><style>body { margin: 0; overflow: hidden; }</style></head>
 <body>
+<audio autoplay src="${soundUri}"></audio>
 <script>
     const vscode = acquireVsCodeApi();
-    const audio = new Audio('${soundUri}');
-    audio.play();
+    const audio = document.querySelector('audio');
     audio.onended = () => vscode.postMessage('done');
-    audio.onerror  = () => vscode.postMessage('done');
+    audio.onerror  = (e) => {
+        console.error('Audio error', e);
+        vscode.postMessage('done');
+    };
 </script>
 </body>
 </html>`;
 
     panel.webview.onDidReceiveMessage(
-        () => { try { panel.dispose(); } catch {} },
+        () => { try { panel.dispose(); } catch { } },
         undefined,
         context.subscriptions
     );
 
     // Safety net in case the message never arrives
-    setTimeout(() => { try { panel.dispose(); } catch {} }, 10000);
+    setTimeout(() => { try { panel.dispose(); } catch { } }, 10000);
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -77,4 +80,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(shellListener, closeListener, manualCmd);
 }
 
-export function deactivate() {}
+export function deactivate() { }
