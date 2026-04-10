@@ -10,44 +10,30 @@ Tired of silent terminal errors? This extension brings the iconic **"Aooooo!"** 
 
 - **⚡ Automatic Trigger**: No manual commands needed. When any terminal command returns an error (exit code ≠ 0), the sound plays instantly
 - **🔊 High-Fidelity Audio**: Includes the authentic "Chowayo" pumpkin howl sound effect
-- **🖥️ Cross-Platform Support**: Optimized for Windows, macOS, and Linux
+- **🖥️ Cross-Platform Support**: Works on Windows, macOS, and Linux — no system audio tools required
 - **💬 Visual Alerts**: Shows a "CHOWAYO!" notification when a failure is detected
-- **🎯 Zero Configuration**: Works out of the box on Windows and macOS
+- **🎯 Zero Configuration**: Works out of the box on all platforms
+- **🔧 Toggle On/Off**: Disable the sound via VS Code settings without uninstalling
 
 ---
 
-## 🛠️ Installation & Setup
+## 🛠️ Installation
 
 ### From VS Code Marketplace
 1. Open VS Code
 2. Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (Mac)
-3. Search for "Aooo Terminal Error Sound"
+3. Search for **"Aooo Terminal Error Sound"**
 4. Click **Install**
 
-### Platform-Specific Setup
+### Platform Support
 
-#### 🪟 Windows (10/11)
-**No additional setup required!** ✅
+| Platform | Status | Notes |
+|----------|--------|-------|
+| 🪟 Windows 10/11 | ✅ Works out of the box | No setup required |
+| 🍎 macOS | ✅ Works out of the box | No setup required |
+| 🐧 Linux | ✅ Works out of the box | No setup required |
 
-The extension uses built-in Windows capabilities (PowerShell) to play audio automatically.
-
-#### 🍎 macOS
-**No additional setup required!** ✅
-
-macOS comes with the built-in `afplay` command, which the extension uses automatically.
-
-#### 🐧 Linux (Ubuntu, Debian, Pop!_OS)
-**One-time setup required:**
-
-Install the audio player using your terminal:
-
-```bash
-sudo apt update && sudo apt install mpg123
-```
-
-For other Linux distributions:
-- **Fedora/RHEL**: `sudo dnf install mpg123`
-- **Arch**: `sudo pacman -S mpg123`
+> Audio is handled internally via a VS Code WebView — no external system commands or tools needed on any platform.
 
 ---
 
@@ -67,6 +53,32 @@ this-is-a-typo
 
 The sound plays automatically whenever any command exits with a non-zero status code.
 
+### Manual Trigger
+
+You can also trigger the sound directly via the Command Palette:
+
+1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
+2. Search for **"Aooo: Play Chowayo Sound"**
+3. Press Enter
+
+---
+
+## 🔧 Configuration
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `aooo.enableSound` | boolean | `true` | Enable or disable the Chowayo howl on terminal failure |
+
+To change settings:
+1. Open Settings: `Ctrl+,` / `Cmd+,`
+2. Search for **"Aooo"**
+3. Toggle **Enable Sound** on or off
+
+Or add this to your `settings.json`:
+```json
+"aooo.enableSound": false
+```
+
 ---
 
 ## 📂 Project Structure
@@ -76,7 +88,8 @@ aooo-terminal-error-sound/
 ├── src/
 │   └── extension.ts       # Main extension logic (monitors terminal exit codes)
 ├── media/
-│   └── chowayo.mp3        # The legendary sound file
+│   ├── chowayo.mp3        # The legendary sound file
+│   └── icon.png           # Extension icon
 ├── package.json           # Extension manifest
 └── README.md              # This file
 ```
@@ -87,47 +100,52 @@ aooo-terminal-error-sound/
 
 ### I see the "CHOWAYO!" popup but hear no sound
 
-**Linux Users:**
-- Ensure `mpg123` is installed: `which mpg123`
-- If not installed, run: `sudo apt install mpg123`
-
-**All Users:**
-- Check if VS Code is muted in your system's Volume Mixer/Sound Settings
+- Check that `aooo.enableSound` is set to `true` in your settings
+- Make sure VS Code is not muted in your system's Volume Mixer / Sound Settings
 - Verify the audio file exists at `media/chowayo.mp3` in the extension directory
-- Try increasing your system volume
+- Try the **manual trigger** via Command Palette to isolate the issue
+
+### The sound doesn't play on some commands
+
+VS Code shell integration must be active for per-command exit code detection. If it's not active (e.g. in certain custom shells), the extension falls back to detecting when the terminal process itself closes with a non-zero code.
+
+To enable shell integration manually, add this to your `settings.json`:
+```json
+"terminal.integrated.shellIntegration.enabled": true
+```
+
+### Some commands trigger it unexpectedly
+
+The extension fires on any non-zero exit code. Some commands like `grep` (no matches = exit 1) or `diff` behave this way by design. A future version will support exit code filtering.
 
 ### Does this work in external terminals?
 
-No, this extension only monitors the **Integrated Terminal** inside VS Code. External terminal windows (Command Prompt, Terminal.app, etc.) are not monitored.
-
-### The sound plays too often / not often enough
-
-The extension triggers on any command that returns a non-zero exit code. Some commands (like `grep` with no matches) may return non-zero exit codes even when they're not "errors" in the traditional sense.
+No — this extension only monitors the **Integrated Terminal** inside VS Code. External windows (Command Prompt, Terminal.app, iTerm2, etc.) are not monitored.
 
 ### How do I disable the extension temporarily?
 
+**Option 1 — Disable sound only** (extension stays active):
+- Set `aooo.enableSound` to `false` in Settings
+
+**Option 2 — Disable extension entirely**:
 1. Open the Extensions panel (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 2. Find "Aooo Terminal Error Sound"
 3. Click **Disable**
 
 ---
 
-## 🔧 Configuration
-
-Currently, this extension works with default settings and requires no configuration. Future versions may include:
-- Custom sound file support
-- Volume control
-- Specific exit code filtering
-
----
-
 ## 📜 Release Notes
 
-### 1.0.0 (Initial Release) 🚀
-- Automatic terminal error detection
-- Cross-platform support for Windows (PowerShell), macOS (afplay), and Linux (mpg123)
+### 0.0.3
+- Cross-platform audio via VS Code WebView (no external system tools required)
+- Added `aooo.enableSound` toggle setting
+- Added manual Command Palette trigger (`Aooo: Play Chowayo Sound`)
+- Fallback listener for terminals without shell integration
+
+### 0.0.1 — 0.0.2 (Early Releases)
+- Initial terminal error detection
 - Visual notification system
-- High-quality "Chowayo" pumpkin howl audio
+- "Chowayo" pumpkin howl audio
 
 ---
 
@@ -151,7 +169,7 @@ This extension is released under the [MIT License](LICENSE).
 
 Created with ❤️ by **SengQT** ([@SengQT](https://github.com/SengQT))
 
-Inspired by the legendary Chowayo AI Pumpkin.
+Inspired by the legendary Chowayo AI Pumpkin. 🎃
 
 ---
 
