@@ -2,7 +2,7 @@
   "name": "aooo-terminal-error-sound",
   "displayName": "Aooo Terminal Error Sound (Chowayo)",
   "description": "Plays the iconic Chowayo pumpkin howl when terminal commands fail (non-zero exit codes)",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "sengqt",
   "icon": "media/icon.png",
   "repository": {
